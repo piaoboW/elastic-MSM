@@ -73,17 +73,26 @@ $$Q=\sum_{i=1}^{n}Q_i=\sum_{i=1}^{n}k_i\cdot P_i=\sum_{i=1}^{n}\sum_{j=1}^{\lamb
 
 is split into two integers, so that $\lambda/s=\omega\cdot k$. Therefore, we have:
 
-$$Q_i=\left[\begin{matrix}1&2^s&2^{2s}&\cdots&2^{(\omega k-1)s}\end{matrix}\right]\cdot \left[\begin{matrix}m_{i1}P_i\\m_{i2}P_i\\m_{i3}P_i\\\vdots\\m_{i(\omega k)}P_i\end{matrix}\right]$$
-​
+$$Q_i=\left[\begin{matrix}1&2^s&2^{2s}&\cdots&2^{(\omega k-1)s}\end{matrix}\right]\left[\begin{matrix}m_{i1}P_i\\
+m_{i2}P_i\\
+m_{i3}P_i\\
+\vdots\\
+m_{i(\omega k)}P_i\end{matrix}\right]$$
+
 We define a new notation $M_{i(l,t)}=m_{i((l-1)k+t)}$, where $l\leq \omega$, $t\leq k$. This leads to:
 
-$$ Q_i= \sum _{j=1}^{\omega k} (2^{(j-1)s}\cdot m_{ij})\cdot P_i\\=\sum_{l=1}^{\omega}\sum_{t=1}^k{2^{((l-1)k+(t-1))s}\cdot M_{i(l,t)}\cdot P_i}$$
+$$Q_i=\sum_{j=1}^{\omega k} (2^{(j-1)s}\cdot m_{ij})\cdot P_i\\
+=\sum_{l=1}^{\omega}\sum_{t=1}^k{2^{((l-1)k+(t-1))s}\cdot M_{i(l,t)}\cdot P_i}$$
 
 Based on the above equation, the calculation of $Q_i$ is transformed into the following matrix multiplication:
 
-$$Q_i=\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right]\cdot P_i \cdot \left[\begin{matrix}m_{i(1,1)}&m_{i(1,2)}&\cdots&m_{i(1,k)} \\ m_{i(2,1)}&m_{i(2,2)}&\cdots&m_{i(2,k)}\\ \vdots&\vdots&\vdots&\vdots\\ m_{i(\omega, 1)}&m_{i(\omega, 2)}&\cdots&m_{i(\omega, k)}\end{matrix}\right]\left[\begin{matrix}1\\ 2^s\\ \vdots\\ 2^{(k-1)s}\end{matrix}\right]$$
-
-$$Q_i=\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right]$$
+$$Q_i=\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right]\cdot P_i \cdot \left[\begin{matrix}m_{i(1,1)}&m_{i(1,2)}&\cdots&m_{i(1,k)}\\
+m_{i(2,1)}&m_{i(2,2)}&\cdots&m_{i(2,k)}\\
+\vdots&\vdots&\vdots&\vdots\\
+m_{i(\omega, 1)}&m_{i(\omega, 2)}&\cdots&m_{i(\omega, k)}\end{matrix}\right]\left[\begin{matrix}1\\
+2^s\\
+\vdots\\
+2^{(k-1)s}\end{matrix}\right]$$
 
 Next, we define three auxiliary variables:
 
