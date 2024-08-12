@@ -37,7 +37,7 @@ $$G_j=\sum_{i=1}^{n} m_{ij}\cdot P_i $$
 
 * MSM Transformation: Therefore, the MSM equation $Q=\sum_{i=1}^n{k_i}\cdot P_i$ can be rewritten as:
 
-$$Q=\sum_{i=1}^{n}Q_i=\sum_{i=1}^{n}k_i\cdot P_i\\ =\sum_{i=1}^{n}\sum_{j=1}^{\lambda/s} (2^{(j-1)s}\cdot m_{ij})\cdot P_i \\=\sum_{j=1}^{\lambda/s} 2^{(j-1)s}\cdot \sum_{i=1}^{n}m_{ij}\cdot P_i\\=\sum_{j=1}^{\lambda/s} 2^{(j-1)s}\cdot G_j$$
+$$Q=\sum_{i=1}^{n}Q_i=\sum_{i=1}^{n}k_i\cdot P_i =\sum_{i=1}^{n}\sum_{j=1}^{\lambda/s} (2^{(j-1)s}\cdot m_{ij})\cdot P_i =\sum_{j=1}^{\lambda/s} 2^{(j-1)s}\cdot \sum_{i=1}^{n}m_{ij}\cdot P_i=\sum_{j=1}^{\lambda/s} 2^{(j-1)s}\cdot G_j$$
 
 **(2) Block Computation**
 
