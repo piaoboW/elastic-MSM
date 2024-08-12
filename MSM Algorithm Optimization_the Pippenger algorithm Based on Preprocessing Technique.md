@@ -31,7 +31,7 @@ Pippenger's algorithm, proposed in 1976，breaks down the MSM calculation into t
 
 $$k_i=\sum_{j=1}^{\lambda/s}{2^{(j-1)s}}\cdot m_{ij} $$
 
-* Transformation: Based on the sub-scalars $m _{ij}​$, the calculation for the $i$-th group element $P_i$can be transformed into:
+* Transformation: Based on the sub-scalars $m _{ij}​$, the calculation for the $i$-th group element $P_i$ can be transformed into:
 
 $$G_j=\sum_{i=1}^{n} m_{ij}\cdot P_i $$
 
