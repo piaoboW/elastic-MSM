@@ -22,7 +22,7 @@ $$Q=\sum_{i=1}^n{k_i}\cdot P_i $$
 where $(P_1, ..., P_n)$ are $n$ group elements,  $\lbrace k_i\rbrace _{i∈[n]}$ are $\lambda$-bit scalars. The range of $\lambda$ can be between 254 and 768, while $n$ is on the order of millions. ${P_i}$ are points on an elliptic curve.
 Therefore, MSM primarily involves the inner product operation of elliptic curve vectors: point addition (PADD) and Therefore, MSM primarily involves the inner product operation of elliptic curve vectors: point addition (PADD) and point multiplication (PMULT).
  
-## 2. Pip­penger 
+## 3. Pip­penger 
 Pippenger's algorithm, proposed in 1976，breaks down the MSM calculation into three main steps:
 
 **(1) Splitting**
@@ -51,7 +51,7 @@ $$Q=\sum_{j=1}^{\lambda/s} 2^{(j-1)s}\cdot G_j=2^s(\cdots (2^s(s^s\cdot G_{\lamb
 
 Figure 1 illustrates the implementation of the Pip­penger algorithm.
 
-![alt text](<fig_MSM\Pippenge.png>)
+![alt text](<fig_MSM/Pippenge.png>)
 
 <p align="center"><font face="黑体" size=3.>Figure 1 Pippenger</font></p>
 
@@ -65,7 +65,7 @@ The sum of the chunks for the $j$-th part (using the red part as an example): $G
 
 Finally, $Q=2^8⋅G_3​+2^4⋅G_2+G_1$.
 
-## 3. elastic MSM
+## 4. elastic MSM
 
 The core of the elastic MSM algorithm is to further split the computation process based on Pippenger's algorithm. The number $\lambda/s$ in
 
@@ -83,6 +83,8 @@ Based on the above equation, the calculation of $Q_i$ is transformed into the fo
 
 $$Q_i=\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right]\cdot P_i \cdot \left[\begin{matrix}m_{i(1,1)}&m_{i(1,2)}&\cdots&m_{i(1,k)} \\ m_{i(2,1)}&m_{i(2,2)}&\cdots&m_{i(2,k)}\\ \vdots&\vdots&\vdots&\vdots\\ m_{i(\omega, 1)}&m_{i(\omega, 2)}&\cdots&m_{i(\omega, k)}\end{matrix}\right]\left[\begin{matrix}1\\ 2^s\\ \vdots\\ 2^{(k-1)s}\end{matrix}\right]$$
 
+$$Q_i=\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right]\cdot P_i \cdot \left[\begin{matrix}m_{i(1,1)}&m_{i(1,2)}&\cdots&m_{i(1,k)} \\m_{i(2,1)}&m_{i(2,2)}&\cdots&m_{i(2,k)}\\\vdots&\vdots&\vdots&\vdots\\m_{i(\omega, 1)}&m_{i(\omega, 2)}&\cdots&m_{i(\omega, k)}\end{matrix}\right]\left[\begin{matrix}1\\ 2^s\\ \vdots\\ 2^{(k-1)s}\end{matrix}\right]$$
+
 Next, we define three auxiliary variables:
 
 $$P_{ij}=2^{(j-1)ks}\cdot P_i $$
@@ -93,11 +95,18 @@ $$N_{ij}=\sum_{l=1}^k 2^{(l-1)s}\cdot M_{i(j,l)}$$
 
 The three auxiliary variables have the following meanings:
 
-* $P_{ij}$：This represents the result of multiplying $P_i$ by a power of 2. Specifically, it is the product of $P_i$ and the $j$-th element of the row vector $\left[ \begin{matrix} 1 & 2^{ks} & \cdots & 2^{(\omega -1)ks} \end{matrix} \right]$.
+* $P_{ij}$：This represents the result of multiplying $P_i$ by a power of 2. Specifically, it is the product of $P_i$ and the $j$-th element of the row vector
+$$\begin{bmatrix}
+1&2^{ks}& \cdots &2^{(\omega -1)ks}
+\end{bmatrix}$$.
+
 
 * $G_{il}$：This is the sum of the products of the elements in the $l$-th column of the $M$ matrix with $P_{ij}$.
 
-* $N_{ij}$：This is the product of the $j$-th row of the $M$ matrix with the column vector $\left[\begin{matrix}1&2^{s}&\cdots&2^{(k -1)s}\end{matrix}\right]^\mathbf{T}$.
+* $N_{ij}$：This is the product of the $j$-th row of the $M$ matrix with the column vector
+  $$\begin
+  {bmatrix}1&2^{s}&\cdots&2^{(k -1)s}\end{matrix}
+  ^\mathbf{T}$$.
 
 Based on these three auxiliary variables, $Q_i$ can be rewritten as:
 
@@ -112,15 +121,15 @@ $$Q=\sum_{i=1}^n Q_i$$
 ​
 The following diagram illustrates the specific implementation of the Elastic Pippenger algorithm.
 
-![alt text](<fig_MSM\Elastic Pippenger.png>)
+![alt text](<fig_MSM/Elastic Pippenger.png>)
 
-<p align="center"><font face="黑体" size=3.>Figure 1 Elastic Pippenger</font></p>
+<p align="center"><font face="黑体" size=3.>Figure 2 Elastic Pippenger</font></p>
 
 As the diagram shows, the core of Elastic Pippenger is to add a pre-processing step based on the original Pippenger algorithm. This step decomposes $P_i$ into $P_{ij}$ and performs pre-computation:
 
-$$P_{ij}=2^{(j-1)ks}\cdot P_i $$
+$$P_{ij}=2^{(j-1)ks}\cdot P_i$$
 
-## 4. Parallel Computing for Pip­penger
+## 5. Parallel Computing for Pip­penger
 
 Three methods for parallelizing calculations are presented:
 * Approach 1: Scalar Coefficient Decomposition
@@ -143,7 +152,7 @@ $$Q=\sum_{i=1}^n{k_i}\cdot P_i =\sum_{j=1}^{T/(\lambda/s)}\cdot Q_j=\sum_{j=1}^{
 
 This approach allows for a more flexible and efficient parallelization strategy, leveraging the strengths of both scalar and group element decomposition methods.
 
-## 5.  Evaluation
+## 6.  Evaluation
 
 Performance on two parallel Pippenger algorithm: Approach 2 and Approach 3.
 
@@ -155,15 +164,17 @@ Pippenger* (Approach 3) or *elastic Pippenger* (Approach 3). This is because the
 <p align="center"><font face="黑体" size=3.>Table 1  Performance results about approach 2
 
 </font></p>
-![alt text](<fig_MSM\Table 1.png>)
+![alt text](<fig_MSM/Table 1.png>)
 
 <p align="center"><font face="黑体" size=3.>Table 2  Performance results about approach 3 
 
 </font></p>
-![alt text](<fig_MSM\Table 2.png>)
+![alt text](<fig_MSM/Table 2.png>)
 
 When the storage space is limited to storing $7 · 2^{22} − 2^{22}$ extra points, the elastic Pippenger (Approach 2) achieves about 56% − 90% speedup versus fast parallel Pippenger (Approach 2) and the elastic
 Pippenger (Approach 3) achieves about 2% − 8% speedup versus fast parallel Pippenger (Approach 3). Thus, the fast parallel Pippenger (Approach 2) could be optimized more by preprocessing techniques. 
+
+##  References
 
 <p name = "ref1">[1]Xudong Z.,Haoqi H.Zhengbang Y.,et al. Elastic MSM: A Fast, Elastic and Modular
 Preprocessing Technique for Multi-Scalar
