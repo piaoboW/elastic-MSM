@@ -83,7 +83,7 @@ Based on the above equation, the calculation of $Q_i$ is transformed into the fo
 
 $$Q_i=\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right]\cdot P_i \cdot \left[\begin{matrix}m_{i(1,1)}&m_{i(1,2)}&\cdots&m_{i(1,k)} \\ m_{i(2,1)}&m_{i(2,2)}&\cdots&m_{i(2,k)}\\ \vdots&\vdots&\vdots&\vdots\\ m_{i(\omega, 1)}&m_{i(\omega, 2)}&\cdots&m_{i(\omega, k)}\end{matrix}\right]\left[\begin{matrix}1\\ 2^s\\ \vdots\\ 2^{(k-1)s}\end{matrix}\right]$$
 
-$$Q_i=\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right]\cdot P_i \cdot \left[\begin{matrix}m_{i(1,1)}&m_{i(1,2)}&\cdots&m_{i(1,k)} \\m_{i(2,1)}&m_{i(2,2)}&\cdots&m_{i(2,k)}\\\vdots&\vdots&\vdots&\vdots\\m_{i(\omega, 1)}&m_{i(\omega, 2)}&\cdots&m_{i(\omega, k)}\end{matrix}\right]\left[\begin{matrix}1\\ 2^s\\ \vdots\\ 2^{(k-1)s}\end{matrix}\right]$$
+$$Q_i=\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right]$$
 
 Next, we define three auxiliary variables:
 
@@ -96,17 +96,14 @@ $$N_{ij}=\sum_{l=1}^k 2^{(l-1)s}\cdot M_{i(j,l)}$$
 The three auxiliary variables have the following meanings:
 
 * $P_{ij}$：This represents the result of multiplying $P_i$ by a power of 2. Specifically, it is the product of $P_i$ and the $j$-th element of the row vector
-$$\begin{bmatrix}
-1&2^{ks}& \cdots &2^{(\omega -1)ks}
-\end{bmatrix}$$.
 
+$$\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right]$$
 
 * $G_{il}$：This is the sum of the products of the elements in the $l$-th column of the $M$ matrix with $P_{ij}$.
 
 * $N_{ij}$：This is the product of the $j$-th row of the $M$ matrix with the column vector
-  $$\begin
-  {bmatrix}1&2^{s}&\cdots&2^{(k -1)s}\end{matrix}
-  ^\mathbf{T}$$.
+
+$$\left[\begin{matrix}1&2^{s}&\cdots&2^{(k -1)s}\end{matrix}\right]^\mathbf{T}$$
 
 Based on these three auxiliary variables, $Q_i$ can be rewritten as:
 
