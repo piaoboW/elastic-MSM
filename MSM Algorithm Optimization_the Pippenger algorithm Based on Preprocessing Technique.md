@@ -55,13 +55,13 @@ Figure 1 illustrates the implementation of the Pip­penger algorithm.
 
 <p align="center"><font face="黑体" size=3.>Figure 1 Pippenger</font></p>
 
-In the figure, $\lambda =12$,$s=4$, $j=3$. $2^s-1=15$ chunks are created, and related $P_i$ are placed in corresponding chunks. The chunks are labeled as $B_1,\cdots,B_{15}$.
+In the figure, $\lambda =12$, $s=4$, $j=3$. $2^s-1=15$ chunks are created, and related $P_i$ are placed in corresponding chunks. The chunks are labeled as $B_1,\cdots,B_{15}$.
 
-The sub-scalars for $P_1​,…,P_5$ (the three boxes in the middle left of the figure) are initially represented as binary numbers. For example, the red box (1101) corresponds to group elements $P_1 and $P_5​$, so $P_1​$ and $P_5​$ are placed in the bucket $B_{13}$ (the binary representation of 13 is 1101). The remaining sub-scalars are processed similarly. $P_2$ is placed in $B_{14}$, and $P_3$, $P_4$ are placed in $B_{15}$. This process is represented by the red part in the upper right corner of the figure. The green and blue parts represent the processing of the remaining sub-scalars.
+The sub-scalars for $P_1​,…,P_5$ (the three boxes in the middle left of the figure) are initially represented as binary numbers. For example, the red box (1101) corresponds to group elements $P_1$ and $P_5​$, so $P_1​$ and $P_5​$ are placed in the bucket $B_{13}$ (the binary representation of 13 is 1101). The remaining sub-scalars are processed similarly. $P_2$ is placed in $B_{14}$, and $P_3$, $P_4$ are placed in $B_{15}$. This process is represented by the red part in the upper right corner of the figure. The green and blue parts represent the processing of the remaining sub-scalars.
 
-The group elements in the same bucket are then added together (PADD). For example, the red part $B _{13}$ actually contains the result of $P_1+P_5$.
+The group elements in the same bucket are then added together (PADD). For example, the red part $B_{13}$ actually contains the result of $P_1+P_5$.
 
-The sum of the chunks for the $j$-th part (using the red part as an example): $G_3=13⋅B _{13}+14⋅B_{14}+15⋅B_{15}=13⋅(P_1+P_5)+14⋅P_2+15⋅(P_3+P_4)$
+The sum of the chunks for the $j$-th part (using the red part as an example): $G_3=13⋅B_{13}+14⋅B_{14}+15⋅B_{15}=13⋅(P_1+P_5)+14⋅P_2+15⋅(P_3+P_4)$.
 
 Finally, $Q=2^8⋅G_3​+2^4⋅G_2+G_1$.
 
@@ -69,7 +69,7 @@ Finally, $Q=2^8⋅G_3​+2^4⋅G_2+G_1$.
 
 The core of the elastic MSM algorithm is to further split the computation process based on Pippenger's algorithm. The number $\lambda/s$ in
 
-$$Q=\sum_{i=1}^{n}Q_i=\sum_{i=1}^{n}k_i\cdot P_i\\ =\sum_{i=1}^{n}\sum_{j=1}^{\lambda/s} (2^{(j-1)s}\cdot m_{ij})\cdot P_i$$
+$$Q=\sum_{i=1}^{n}Q_i=\sum_{i=1}^{n}k_i\cdot P_i=\sum_{i=1}^{n}\sum_{j=1}^{\lambda/s} (2^{(j-1)s}\cdot m_{ij})\cdot P_i$$
 
 is split into two integers, so that $\lambda/s=\omega\cdot k$. Therefore, we have:
 
@@ -81,26 +81,28 @@ $$ Q_i= \sum _{j=1}^{\omega k} (2^{(j-1)s}\cdot m_{ij})\cdot P_i\\=\sum_{l=1}^{\
 
 Based on the above equation, the calculation of $Q_i$ is transformed into the following matrix multiplication:
 
-$$Q_i=\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right]\cdot P_i \cdot \left[\begin{matrix}m_{i(1,1)}&m_{i(1,2)}&\cdots&m_{i(1,k)}\\m_{i(2,1)}&m_{i(2,2)}&\cdots&m_{i(2,k)}\\\vdots&\vdots&\vdots&\vdots\\m_{i(\omega, 1)}&m_{i(\omega, 2)}&\cdots&m_{i(\omega, k)}\end{matrix}\right]\left[\begin{matrix}1\\2^s\\\vdots\\2^{(k-1)s}\end{matrix}\right]$$
+$$Q_i=\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right]\cdot P_i \cdot \left[\begin{matrix}m_{i(1,1)}&m_{i(1,2)}&\cdots&m_{i(1,k)} \\ m_{i(2,1)}&m_{i(2,2)}&\cdots&m_{i(2,k)}\\ \vdots&\vdots&\vdots&\vdots\\ m_{i(\omega, 1)}&m_{i(\omega, 2)}&\cdots&m_{i(\omega, k)}\end{matrix}\right]\left[\begin{matrix}1\\ 2^s\\ \vdots\\ 2^{(k-1)s}\end{matrix}\right]$$
 
 Next, we define three auxiliary variables:
 
 $$P_{ij}=2^{(j-1)ks}\cdot P_i $$
+
 $$G_{il}=\sum_{j=1}^\omega M_{i(j,l)}\cdot P_{ij}$$
+
 $$N_{ij}=\sum_{l=1}^k 2^{(l-1)s}\cdot M_{i(j,l)}$$
 
 The three auxiliary variables have the following meanings:
 
-* $P_{ij}$：This represents the result of multiplying $P_i$ by a power of 2. Specifically, it is the product of $P_i$ and the $j$-th element of the row vector $\left[\begin{matrix}1&2^{ks}&\cdots&2^{(\omega -1)ks}\end{matrix}\right].
+* $P_{ij}$：This represents the result of multiplying $P_i$ by a power of 2. Specifically, it is the product of $P_i$ and the $j$-th element of the row vector $\left[ \begin{matrix} 1 & 2^{ks} & \cdots & 2^{(\omega -1)ks} \end{matrix} \right]$.
 
-* $G_{il}$：This is the sum of the products of the elements in the $l$-th column of the $M$ matrix with$P_{ij}$.
+* $G_{il}$：This is the sum of the products of the elements in the $l$-th column of the $M$ matrix with $P_{ij}$.
 
 * $N_{ij}$：This is the product of the $j$-th row of the $M$ matrix with the column vector $\left[\begin{matrix}1&2^{s}&\cdots&2^{(k -1)s}\end{matrix}\right]^\mathbf{T}$.
 
 Based on these three auxiliary variables, $Q_i$ can be rewritten as:
 
 $$Q_i = \sum_{j=1}^{\omega} N_{ij} \cdot P_{ij}
-= \sum_{j=1}^{\omega} \sum_{l=1}^{k} {2^{(l-1)s}}\cdot M_{i(j,l)} \cdot P_{ij} \\
+= \sum_{j=1}^{\omega} \sum_{l=1}^{k} {2^{(l-1)s}}\cdot M_{i(j,l)} \cdot P_{ij} 
 = \sum_{l=1}^{k}2^{(l-1)s }\cdot \sum_{j=1}^{\omega} \cdot M_{i(j,l)} \cdot P_{ij}
 = \sum_{l=1}^{k}2^{(l-1)s } G_{il}$$
 
@@ -129,7 +131,7 @@ This method achieves a speedup of at most $s/λ$. In practice, the value of $λ$
 
 * Approach 2: Group Element Decomposition
 
-Assuming the number of group elements $n$ is divisible by $T$, the equation$Q=\sum_{i=1}^n{k_i}\cdot P_i$ is split into $T$ subtasks $Q_t​,t \leq T$. The final result is obtained by merging the computed results of each subtask: $Q=\sum _{t=1}^T{Q_t}$
+Assuming the number of group elements $n$ is divisible by $T$, the equation $Q=\sum_{i=1}^n{k_i}\cdot P_i$ is split into $T$ subtasks $Q_t​,t \leq T$. The final result is obtained by merging the computed results of each subtask: $Q=\sum _{t=1}^T{Q_t}$
 
 This method allows for parallel processing of a sufficient number of tasks on the GPU, as long as the size of the divided tasks is reasonable, until the GPU's computational power is fully utilized.
 
@@ -137,7 +139,7 @@ This method allows for parallel processing of a sufficient number of tasks on th
 
 This method combines the above two methods by dividing both into $s/λ$ $G_j$ and $t$ subtasks.
 
-$$Q=\sum_{i=1}^n{k_i}\cdot P_i =\sum_{j=1}^{T/(\lambda/s)}\cdot Q_j\\=\sum_{j=1}^{T/(\lambda/s)}\sum_{l=1}^{\lambda/s} 2^{(l-1)s}\cdot G_{jl}$$
+$$Q=\sum_{i=1}^n{k_i}\cdot P_i =\sum_{j=1}^{T/(\lambda/s)}\cdot Q_j=\sum_{j=1}^{T/(\lambda/s)}\sum_{l=1}^{\lambda/s} 2^{(l-1)s}\cdot G_{jl}$$
 
 This approach allows for a more flexible and efficient parallelization strategy, leveraging the strengths of both scalar and group element decomposition methods.
 
