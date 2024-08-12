@@ -47,7 +47,7 @@ $$Q=\sum_{i=1}^{n}Q_i=\sum_{i=1}^{n}k_i\cdot P_i =\sum_{i=1}^{n}\sum_{j=1}^{\lam
 
 * Weighted Sum: Multiply the summation results of each subtask by a power coefficient, dependent on the window size $s$, and sum them together. The summation process is as follows:
 
-$$Q=\sum_{j=1}^{\lambda/s} 2^{(j-1)s}\cdot G_j\\=2^s(\cdots (2^s(s^s\cdot G_{\lambda /s}+G_{\lambda /s -1})+G_{\lambda /s -2})\cdots)+G_1$$
+$$Q=\sum_{j=1}^{\lambda/s} 2^{(j-1)s}\cdot G_j=2^s(\cdots (2^s(s^s\cdot G_{\lambda /s}+G_{\lambda /s -1})+G_{\lambda /s -2})\cdots)+G_1$$
 
 Figure 1 illustrates the implementation of the Pip­penger algorithm.
 
