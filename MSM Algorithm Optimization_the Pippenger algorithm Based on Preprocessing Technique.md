@@ -2,7 +2,7 @@
 ## 1. Introduction
 Currently, most of the computational overhead in ZKP systems comes from local computation. Furthermore, the succinctness of proof systems typically requires verification time to be sublinear (or even logarithmic), which means the Prover incurs a significant time cost in generating proofs. As a result, modern zk-SNARK protocols often see a scenario where the Verifier can verify a proof in just one second, but the Prover may need a much longer time to generate the proof.
 
-Looking at the construction of ZKP systems, we can see that hardware costs primarily concentrate on MSM, NTT, and arithmetic hashing.
+When examining the architecture of ZKP systems, we observe that hardware costs are predominantly driven by operations involving multi-scalar multiplication (MSM), number-theoretic transform (NTT), and arithmetic hashing.
 
 **MSM:** There are many ways to optimize MSM. For large-scale MSM, algorithms like Pippenger can be used to reduce computational complexity (originally linear, it can be reduced to $O(n/log_n))$. Alternatively, using special points or curves can reduce the computational cost of each field operation.
 
@@ -23,7 +23,7 @@ where $(P_1, ..., P_n)$ are $n$ group elements,  $\lbrace k_i\rbrace _{i∈[n]}$
 Therefore, MSM primarily involves the inner product operation of elliptic curve vectors: point addition (PADD) and Therefore, MSM primarily involves the inner product operation of elliptic curve vectors: point addition (PADD) and point multiplication (PMULT).
  
 ## 3. Pip­penger 
-Pippenger's algorithm, proposed in 1976，breaks down the MSM calculation into three main steps:
+Pippenger's algorithm, proposed in 1976，is a highly efficient method for performing multi-scalar multiplication (MSM), a fundamental operation in cryptography and other areas. It's particularly useful when computing the sum of multiple scalar multiples of a set of points on an elliptic curve, commonly encountered in digital signatures, zero-knowledge proofs, and other cryptographic applications. Pippenger's algorithm breaks down the MSM calculation into three main steps:
 
 **(1) Splitting**
 
